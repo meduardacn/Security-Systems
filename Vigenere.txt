@@ -1,0 +1,25 @@
+----- Cifra Vigère ----- 
+
+PASSOS
+1)Encontrar o tamanho m da chave
+2)Encontrar cada letra da chave
+
+MÉTODOS
+1) Teste de Kasiski
+- procurar por segmentos idênticos e contar quantas posições os separam.
+
+2) Índice de coincidência
+- x =  x1, x2, ... xn sequência de n caracteres
+- índice de coincidência de x é a probabilidade de dois elementos aleatórios de x serem iguas
+- freq(a) = f0
+- freq(b) = f1
+- ...
+- freq(z) = f25
+
+- reescreva o texto como 
+- c1 = c1 cm+1 c2m+1 ...
+- c2 = c2 cm+2 cm+2 ...
+- ...
+- cm = cm c2m c3m
+...
+...
