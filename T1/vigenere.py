@@ -1,3 +1,18 @@
+def keywordLength(chipherText, attempts):
+	dic_ic = dict() # int -> [float] | possible keyword lenght -> [indexes of coincidence] 
+	for i in range(1,attempts+1):	
+		dic_ic[i] = []
+		for j in range(i):	
+			newText = ""
+			k = j
+			while k < len(chiperText):	
+				newText += chiperText[k]
+				k += i
+			dic_ic[i].append(newText)
+	return dic_ic		
+
+
+
 def freq(chipherText):
 	for elem in chipherText:
 		value = listFreq[elem]
@@ -11,10 +26,8 @@ listFreq = dict([('a', 0), ('b', 0), ('c', 0), ('d', 0), ('e', 0),
 				 ('u', 0), ('v', 0), ('w', 0), ('x', 0), ('y', 0), ('z', 0)])
 
 
-
-
-
 chiperText = input()
-freq(chiperText)
-print(listFreq)
+
+print( keywordLength(chiperText, 4) )
+
 
