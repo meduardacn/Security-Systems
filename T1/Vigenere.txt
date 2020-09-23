@@ -16,10 +16,48 @@ MÉTODOS
 - ...
 - freq(z) = f25
 
-- reescreva o texto como 
+- reescreva o texto como e calcule o índice de coincidência pra cada um,
+o que der mais perto do ic do idioma tem o tamanho da chave
 - c1 = c1 cm+1 c2m+1 ...
 - c2 = c2 cm+2 cm+2 ...
 - ...
 - cm = cm c2m c3m
 ...
-...
+
+---------------------------------------------------------------------------------------------------------------------------
+
+- entra texto
+- procura tamanho da chave:                                              |-> i = 1 -> abcdefgh -> abcdefgh
+    dic[ chave -> [ic] ]
+    para i = 0, i < m, i++ faça: // a chave pode ter tamanho de 1 até m  |-> i = 2 -> ab cd ef gh -> aceg | bdfh
+      |  para j = 0, j < i, j++ faça: // cria i strings                  |-> i = 3 -> abc def gh -> adg | beh | cf
+      |   | para k = j, k < texto.len, k+=i faça: // pega char de i em i
+      |   |   | str += texto[k]
+      |   |   |_ _ _ _ _ _ _ _ _
+      |   |   result = calculaIndice(str)
+      |   |   // verificar se o resultado é aproximado do icPT
+      |   |   dic[i] += result
+      |   |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+      |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    possiveisValores = [(chave,ic)]
+    para i = 0, i < m, i++ faça:
+      | indices = dic[i]
+      | para elemento em indices:
+      |  |  se as primeiras 2 casas decimais são iguais: // nese caso icPT = 0.072723
+      |  |   |  possiveisValores += (i, elemento)
+      |  |   |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+      |  |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+      |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+- cria n strings, sendo n o tamanho da chave e para cada uma verifica a letra com maior frequencia
+    para i = 0, i < n, i++ faça: // cria n strings
+      | para j = i, j < texto.len, j+n // pega char de n em n
+      |   | str += texto[j]
+      |   |_ _ _ _ _ _ _ _ _
+      | chave += letraMaisFrequente(str) 
+      |_ _ _ _ _ _ _ _ _
+
+- descobre o shift de cada letra da chave
+
+- aplica a chave no texto cifrado -> gera texto claro
