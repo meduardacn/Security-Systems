@@ -61,3 +61,5 @@ o que der mais perto do ic do idioma tem o tamanho da chave
 - descobre o shift de cada letra da chave
 
 - aplica a chave no texto cifrado -> gera texto claro
+
+plsualtlroaocrqcocauiseremmoiranstoiozaendroabiormrcaaocsnenidtliuannvduepranretqeeusscepxtexraexemxotssiedt
