@@ -1,9 +1,8 @@
 import time
-start_time = time.time()
 
+start_time = time.time()
 icPT = 0.072723
-lessIC = icPT - 0.01
-largerIC = icPT + 0.01
+
 def newFrequencyDict():	
 	return dict([('a', 0), ('b', 0), ('c', 0), ('d', 0), ('e', 0),
 				 ('f', 0), ('g', 0), ('h', 0), ('i', 0), ('j', 0),
@@ -37,16 +36,57 @@ def keywordLength(chipherText, attempts):
 
 			ic = coincidenceIndexFor(newText)
 			if abs(icPT - ic) < 0.01:	
+				print(i)
 				return i 
-				tupla = (ic,abs(icPT-ic))
-				dic_closerKey[i].append(tupla)
-			dic_ic[i].append(ic)
-	#-------------------------------------------------------------
-	for k, v in dic_closerKey.items():	
-		if v != []:	
-			return k
+	# 			tupla = (ic,abs(icPT-ic))
+	# 			dic_closerKey[i].append(tupla)
+	# 		dic_ic[i].append(ic)
+	# #-------------------------------------------------------------
+	# for k, v in dic_closerKey.items():	
+	# 	if v != []:	
+	# 		return k
+
+def mostFrequentLetter(text):	
+	dictFreq = newFrequencyDict()
+	for elem in text:
+		dictFreq[elem] += 1
+	letter = ""
+	biggerFreq = 0
+	for k, v in dictFreq.items():	
+		if v > biggerFreq:	
+			letter = k
+			biggerFreq = v
+	return letter
+
+def unshiftLetter(letter):	
+	# unshifted = 'a' - letter
+    return 'z'
+
+def findKey(chiperText):	
+	lenght = keywordLength(chiperText,20)	
+	texts = dict()
+	for i in range(lenght):	
+		newText = ""
+		k = i
+		while k < len(chiperText):	
+			newText += chiperText[k]
+			k += lenght
+		texts[i] = newText
+	key = ""
+	for k, v in texts.items():	
+		letter = mostFrequentLetter(v)
+		key += unshiftLetter(letter)
+	return key
+
+def decrypt(chiperText):	
+	keyWord = findKey(chiperText)
+	clearText = ""
+	for elem in chiperText:
+		clearText += unshiftLetter(elem)
+	print(clearText)
+
 
 chiperText = input()
 print("tamanho", len(chiperText))
-keywordLength(chiperText, 25)
+decrypt(chiperText)
 print("--- %s seconds ---" % (time.time() - start_time))
