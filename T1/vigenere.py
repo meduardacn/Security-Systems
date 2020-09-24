@@ -37,25 +37,16 @@ def keywordLength(chipherText, attempts):
 
 			ic = coincidenceIndexFor(newText)
 			if abs(icPT - ic) < 0.01:	
+				return i 
 				tupla = (ic,abs(icPT-ic))
 				dic_closerKey[i].append(tupla)
 			dic_ic[i].append(ic)
 	#-------------------------------------------------------------
-	length = 0
 	for k, v in dic_closerKey.items():	
 		if v != []:	
-			length = k
-			print(k)
-			break
-
-
-
-
-
-
+			return k
 
 chiperText = input()
 print("tamanho", len(chiperText))
 keywordLength(chiperText, 25)
 print("--- %s seconds ---" % (time.time() - start_time))
-
