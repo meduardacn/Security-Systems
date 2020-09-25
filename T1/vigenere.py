@@ -2,6 +2,14 @@ import time
 
 start_time = time.time()
 icPT = 0.072723
+
+def leitura(txt):#leitura e tratamento da entrada txt
+	f = open(txt, 'r')
+	f = f.read() #Leitura do Arquivo
+	print(f)
+	
+	#return list_op
+
 def newFrequencyDict():	
 	return dict([('a', 0), ('b', 0), ('c', 0), ('d', 0), ('e', 0),
 				 ('f', 0), ('g', 0), ('h', 0), ('i', 0), ('j', 0),
@@ -91,36 +99,37 @@ def unshiftLetter(letter, key):
 
 def possibleKeys(cipherText):	
 	first, second = findKey(cipherText)
-	print(first, second)
-	tuples = []
-	for i in range(len(first)):	
-		tuples.append([first[i],second[i]])	
-	myprint(tuples,"")
+	print("------------------------------------------------------------------------------------------------------------")
+	print("The most frequent letters and the second largest ones, respectively:",first, second)
+	array = [first,second]
+	myprint(array,"")
+	keysList = list(keys)
+	print("------------------------------------------------------------------------------------------------------------")
+	print("These are all the possibilities of keys using the two words with the most frequent letters:")
+	print("")
+	for i in range(len(keysList)):	
+		print(keysList[i], end =" ")  
+	print("")
 
-keys = []
-
+keys = set()
 def myprint(vetor, palavra):	
 	if vetor == []:
-		return	
-
-	if len(vetor) == 1:
-		for i in vetor[0]:
-    			keys.append(palavra+i)
+		return
+	if len(vetor[0]) == 1:
+		for i in vetor:	
+			keys.add(palavra+i)
 			# print(palavra+i)
 		return
-
-	for i in vetor[0]:
-		myprint(vetor[1:],palavra+i)
-
-
-vetor =  [['1','2'],['3','4'],['5','6']] 
-myprint(vetor,"")
+	aux = []
+	for i in vetor:
+		aux.append(i[1:])
+	for i in vetor:
+		myprint(aux,palavra+i[0])
 
 def decrypt(cipherText, keyword):	
 	clearText = ""
 	i = 0
 	j = 0
-	print(keyword)
 	while i < len(cipherText):	
 		key = keyword[j]
 		letter = cipherText[i]
@@ -143,8 +152,17 @@ alphabet = dict([('a', 0), ('b', 1), ('c', 2), ('d', 3), ('e', 4),
 				 (15, 'p'), (16, 'q'), (17, 'r'), (18, 's'), (19, 't'),
 				 (20, 'u'), (21, 'v'), (22, 'w'), (23, 'x'), (24, 'y'), (25, 'z')])
 
-cipherText = input()
-print("tamanho", len(cipherText))
-possibleKeys(cipherText)
-decrypt(cipherText, "avelino")
+print("------------------------------------------------------------------------------------------------------------")
+print("Enter file path with encoded text:")
+file = input()
+print("------------------------------------------------------------------------------------------------------------")
+f = open(file, "r")
+cipherText = f.read()
+f.close()
+possibleKeys(str(cipherText))
+print("------------------------------------------------------------------------------------------------------------")
+print("Insert the keyword:")
+keyword = input()
+print("")
+decrypt(cipherText, keyword)
 print("--- %s seconds ---" % (time.time() - start_time))
