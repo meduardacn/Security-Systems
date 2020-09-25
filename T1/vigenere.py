@@ -39,6 +39,9 @@ def keywordLength(chipherText, attempts):
 				k += i
 
 			ic = coincidenceIndexFor(newText)
+			if abs(icPT - ic) < 0.01:	
+				newFile.write("key length:"+ str(i) + "\n")	
+				return i 
 			dic_ic[i].append(ic)
 	#-------------------------------------------------------------
 	largestIC = 0 
