@@ -86,9 +86,8 @@ def findKey(cipherText):
 	return(mostFrequent, secondMost)
 
 def unshiftLetter(letter, key):	
-	valueOfL = abs(alphabet[letter] - alphabet[key])
-	print(valueOfL,valueOfL%26)
-	# return alphabet[valueOfL%25]
+	valueOfL = alphabet[letter] - alphabet[key]
+	return alphabet[valueOfL%26]
 
 def possibleKeys(cipherText):	
 	first, second = findKey(cipherText)
@@ -96,10 +95,26 @@ def possibleKeys(cipherText):
 	tuples = []
 	for i in range(len(first)):	
 		tuples.append([first[i],second[i]])	
+	myprint(tuples,"")
 
-	for elem in tuples:	
-		print(elem)
+keys = []
 
+def myprint(vetor, palavra):	
+	if vetor == []:
+		return	
+
+	if len(vetor) == 1:
+		for i in vetor[0]:
+    			keys.append(palavra+i)
+			# print(palavra+i)
+		return
+
+	for i in vetor[0]:
+		myprint(vetor[1:],palavra+i)
+
+
+vetor =  [['1','2'],['3','4'],['5','6']] 
+myprint(vetor,"")
 
 def decrypt(cipherText, keyword):	
 	clearText = ""
@@ -109,8 +124,7 @@ def decrypt(cipherText, keyword):
 	while i < len(cipherText):	
 		key = keyword[j]
 		letter = cipherText[i]
-		
-		clearText += 'x'
+		clearText += unshiftLetter(letter, key)
 		i += 1	
 		j += 1	
 		if j == len(keyword):	
@@ -118,16 +132,16 @@ def decrypt(cipherText, keyword):
     		
 	print(clearText)
 
-alphabet = dict([('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5),
-				 ('f', 6), ('g', 7), ('h', 8), ('i', 9), ('j', 10),
-				 ('k', 11), ('l', 12), ('m', 13), ('n', 14), ('o', 15), 
-				 ('p', 16), ('q', 17), ('r', 18), ('s', 19), ('t', 20),
-				 ('u', 21), ('v', 22), ('w', 23), ('x', 24), ('y', 25), ('z', 26),
-				 (1, 'a'), (2, 'b'), (3, 'c'), (4, 'd'), (5, 'e'),
-				 (6, 'f'), (7, 'g'), (8, 'h'), (9, 'i'), (10, 'j'),
-				 (11, 'k'), (12, 'l'), (13, 'm'), (14, 'n'), (15, 'o'), 
-				 (16, 'p'), (17, 'q'), (18, 'r'), (19, 's'), (20, 't'),
-				 (21, 'u'), (22, 'v'), (23, 'w'), (24, 'x'), (25, 'y'), (26, 'z')])
+alphabet = dict([('a', 0), ('b', 1), ('c', 2), ('d', 3), ('e', 4),
+				 ('f', 5), ('g', 6), ('h', 7), ('i', 8), ('j', 9),
+				 ('k', 10), ('l', 11), ('m', 12), ('n', 13), ('o', 14), 
+				 ('p', 15), ('q', 16), ('r', 17), ('s', 18), ('t', 19),
+				 ('u', 20), ('v', 21), ('w', 22), ('x', 23), ('y', 24), ('z', 25),
+				 (0, 'a'), (1, 'b'), (2, 'c'), (3, 'd'), (4, 'e'),
+				 (5, 'f'), (6, 'g'), (7, 'h'), (8, 'i'), (9, 'j'),
+				 (10, 'k'), (11, 'l'), (12, 'm'), (13, 'n'), (14, 'o'), 
+				 (15, 'p'), (16, 'q'), (17, 'r'), (18, 's'), (19, 't'),
+				 (20, 'u'), (21, 'v'), (22, 'w'), (23, 'x'), (24, 'y'), (25, 'z')])
 
 cipherText = input()
 print("tamanho", len(cipherText))
