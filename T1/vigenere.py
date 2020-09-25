@@ -51,7 +51,7 @@ def keywordLength(chipherText, attempts):
 		if average > largestIC:	
 			largestIC = average
 			largestLength = k
-	print("key length", largestLength)
+	newFile.write("key length:"+ str(largestLength) + "\n")
 	return largestLength
 		
 def mostFrequentLetter(text):	
@@ -99,17 +99,17 @@ def unshiftLetter(letter, key):
 
 def possibleKeys(cipherText):	
 	first, second = findKey(cipherText)
-	print("------------------------------------------------------------------------------------------------------------")
-	print("The most frequent letters and the second largest ones, respectively:",first, second)
+	newFile.write("------------------------------------------------------------------------------------------------------------\n")
+
+	newFile.write("The most frequent letters and the second largest ones,respectively: " + first + " and " + second + "\n")
+	newFile.write("------------------------------------------------------------------------------------------------------------\n")
+	
 	array = [first,second]
 	myprint(array,"")
 	keysList = list(keys)
-	print("------------------------------------------------------------------------------------------------------------")
-	print("These are all the possibilities of keys using the two words with the most frequent letters:")
-	print("")
-	for i in range(len(keysList)):	
-		print(keysList[i], end =" ")  
-	print("")
+	newFile.write("These are all the possibilities of keys using the two words with the most frequent letters: \n")
+	for elem in keysList:	
+		newFile.write(elem + "\n")
 
 keys = set()
 def myprint(vetor, palavra):	
@@ -137,9 +137,8 @@ def decrypt(cipherText, keyword):
 		i += 1	
 		j += 1	
 		if j == len(keyword):	
-			j = 0
-    		
-	print(clearText)
+			j = 0	
+	return clearText		
 
 alphabet = dict([('a', 0), ('b', 1), ('c', 2), ('d', 3), ('e', 4),
 				 ('f', 5), ('g', 6), ('h', 7), ('i', 8), ('j', 9),
@@ -159,10 +158,27 @@ print("-------------------------------------------------------------------------
 f = open(file, "r")
 cipherText = f.read()
 f.close()
+
+x = file.split('/')
+name = x[-1]
+
+open("results/"+name, "w").close()
+newFile = open("results/"+name, "a")
+
 possibleKeys(str(cipherText))
+newFile.write("Time to find all possible keys: %s seconds" % (time.time() - start_time))
+newFile.write("\n------------------------------------------------------------------------------------------------------------\n")
+
+print("All possible keyword was created in the file", name, "choose one to decrypt the text")
 print("------------------------------------------------------------------------------------------------------------")
+newFile.close()
+
+newFile = open("results/"+name, "a")
 print("Insert the keyword:")
+print("------------------------------------------------------------------------------------------------------------")
 keyword = input()
-print("")
-decrypt(cipherText, keyword)
-print("--- %s seconds ---" % (time.time() - start_time))
+start_time = time.time()
+result = decrypt(cipherText, keyword)
+newFile.write("\n" + result + "\n")
+newFile.write("\nTime to decrypt text: %s seconds" % (time.time() - start_time))
+newFile.close()
