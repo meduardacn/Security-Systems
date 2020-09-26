@@ -1,0 +1,23 @@
+key length:4
+------------------------------------------------------------------------------------------------------------
+The most frequent letters and the second largest ones,respectively: leic and zpvg
+------------------------------------------------------------------------------------------------------------
+These are all the possibilities of keys using the two words with the most frequent letters: 
+levg
+lpig
+zpvc
+lpic
+lpvg
+leic
+zpic
+lpvc
+zpvg
+levc
+zevg
+zevc
+leig
+zeic
+zpig
+zeig
+Time to find all possible keys: 9.78775405883789 seconds
+------------------------------------------------------------------------------------------------------------
