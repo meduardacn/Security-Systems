@@ -10,15 +10,22 @@ def blocks(binary):
     blocks = []
     for i in range(0,len(binary),1024):
         blocks.append(binary[i:i+1024])
-    
-        last = blocks[-1]
-        blocks.pop()
+    hashes = []
+    blocks.reverse()
+
+    h = SHA256.new()
+    h.update(blocks[0])
+    blockhash = h.hexdigest()        
+    binary = blockhash.encode()
+    hashes.append(binary)
+    for i in range(1,len(blocks)):
+        block = blocks[i]+hashes[i-1]
         h = SHA256.new()
-        h.update(last)
-        print(h.hexdigest())
-
-    
-
+        h.update(block)
+        blockhash = h.hexdigest()
+        binary = blockhash.encode()
+        hashes.append(binary)
+    print(hashes[-1])
 def main(file):
     binary = readFile(file)
     lista = blocks(binary)
