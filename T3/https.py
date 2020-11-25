@@ -1,6 +1,7 @@
 import sys
 import hashlib
 
+data = sys.argv
 ##################################################################
 #### Etapa 1: Geração de chave usando Diffie-Hellman
 ##################################################################
@@ -10,20 +11,18 @@ p = "0B10B8F96A080E01DDE92DE5EAE5D54EC52C99FBCFB06A3C69A6A9DCA52D23B616073E28675
 g = "0A4D1CBD5C3FD34126765A442EFB99905F8104DD258AC507FD6406CFF14266D31266FEA1E5C41564B777E690F5504F213160217B4B01B886A5E91547F9E2749F4D7FBD7D3B9A92EE1909D0D2263F80A76A6A24C087A091F531DBF0A0169B6A28AD662A4D18E73AFA32D779D5918D08BC8858F4DCEF97C2A24855E6EEB22B3B2E5"
 p = int(p, 16)
 g = int(g, 16)
-# print("p =", p, "\n")
-# print("g =", g, "\n")
 
 a = 1434365
-# print("a",("0%x" % a).upper())
 
 #A = g**a % p
 A = 115235192002095284167566143416355874134919738969278108323107599925855610053424655701918293810648079395946994972972922262402334374707875676272322165103411679414056693542306893845620979286198286784585695809473296078382384191173270408880954745756688336910304764026910967879384181829338828864978491915688282424615
-#print("A",A,"\n")
-#print("A",("0%x" % A).upper())
+print("A",("0%x" % A).upper())
 
 ##################################################################
 #### Passo 2: receber um valor B (em hexadecimal) e calcular V = B**a mod p
-
+#### Para receber o B e calcular o Valor de V é necessário descomentar as linhas 26,30 e comentar as linhas 27,31
+#### python3 https.py <B em hexa>
+# B = data[1] 
 B = "585068BD6F89F4D5F0A870C1D88BE173FCFCB56437CDA4CAEBF1A5B3FAA5796F50BE88AE5A7A21928F2C4E02E79511113CBEE483976474C4C77FA64F45A4AD539F78EAA5B695CEA09290FC528EA09F7CA3CE0A520A21F70E2DD58F970B059B0760731F44B72870CC6ED76F66C51427276E6CB3912128E67C2B4956B5FDBF0975"
 B = int(B, 16)
 
@@ -33,7 +32,7 @@ V = 5743133305446167726332490712449783157843198618795835387168433708291437794069
 #print("V",("0%x" % V).upper())
 
 ##################################################################
-#### Passo 3: calcular S = SHA256(V) e usar os primeiros 128 bits como senha para se comunicar com o professor.
+#### Passo 3: calcular S = SHA256(V) e usar os primeiros 128 bits como senha para se comunicar
 v = bytearray.fromhex(("%x" % V))
 S = hashlib.sha256(v).hexdigest().upper()[:32]    # V em int
 #S = "FAE9223FEB4CA59080BFB1378FEA56F0"
