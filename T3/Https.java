@@ -5,9 +5,11 @@ import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.math.BigInteger;
 
 public class Https {
-    public  static byte[] hexStringToByteArray(String s){
+
+    public  static byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2){
@@ -16,18 +18,62 @@ public class Https {
         return data;
     }
 
+    public static String hexStringToString(String hex) {
+ 
+        StringBuilder sb = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
+    
+        for( int i=0; i<hex.length()-1; i+=2 ){
+    
+            String output = hex.substring(i, (i + 2));
+            int decimal = Integer.parseInt(output, 16);
+            sb.append((char)decimal);
+            temp.append(decimal);
+        }
+    
+        return sb.toString();
+    }
+
+    public static String byteArrayToHexString(byte[] b){
+        StringBuffer sb = new StringBuffer(b.length * 2);
+        for (int i = 0; i < b.length; i++) {
+            int v = b[i] & 0xff;
+            if (v < 16) {
+                sb.append('0');
+            }
+            sb.append(Integer.toHexString(v));
+        }
+        return sb.toString().toUpperCase();
+    }
+    public static byte[] decrypt(byte[] msg, byte[] key, byte[] iv){
+        byte[] deciphered = new byte[5];
+        try {
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            SecretKeySpec secretKey = new SecretKeySpec(key, "AES");
+
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+            deciphered = cipher.doFinal(msg);
+        
+        } catch(Exception error) {
+            System.out.println(error);
+        }
+        return deciphered;
+    }
+
     public static void main(String[] args) {
         String message = args[0];
-        String key = args[1];
+        byte[] key = hexStringToByteArray(args[1]);        
+        byte[] iv = hexStringToByteArray( message.substring(0, 32) );
+        byte[] msg = hexStringToByteArray( message.substring(32) );
 
-        byte[] password = hexStringToByteArray(key);
+
+        byte[] decryptedBytes = decrypt(msg, key, iv);
+        String decryptedString = hexStringToString(byteArrayToHexString(decryptedBytes));
         
-        String IV = message.substring(0, 32);
-        String msg = message.substring(32);
+        System.out.println(key);    
+        System.out.println(iv + " " + msg);
 
-        System.out.println("Message:\n" + message + "\n");
+        System.out.println("\n" + decryptedString); 
 
-        System.out.println(password);    
-        System.out.println(IV + " " + msg);
     }
 }
