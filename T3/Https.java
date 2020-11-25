@@ -106,19 +106,22 @@ public class Https {
         p = new BigInteger(hexP, 16);
         g = new BigInteger(hexG, 16);
         // A();
-        // -----------------------------
+        //##################################################################
+        // Recebe a mensagem e a chave em hexadecimal
         String message = args[0];
         byte[] key = hexStringToByteArray(args[1]);        
         byte[] iv = hexStringToByteArray( message.substring(0, 32) );
         byte[] msg = hexStringToByteArray( message.substring(32) );
 
+        // Decifra a mensagem recebida usando e a imprime em texto claro
         byte[] decryptedBytes = decrypt(msg, key, iv);
         String decryptedString = hexStringToString(byteArrayToHexString(decryptedBytes));
         System.out.println("\n" + decryptedString); 
 
+        // Cifra a mensagem invertida e imprime seu valor em hexadecimal [128 bits com IV aleatório][mensagem]
+    
         StringBuilder sb = new StringBuilder(decryptedString);  
-        msg = hexStringToByteArray(stringToHexString(sb.reverse().toString())); // reverserd string in bytes
-
+        msg = hexStringToByteArray(stringToHexString(sb.reverse().toString())); // inverte a mensagem e transforma em bytes
         String encryptedHex = byteArrayToHexString(encrypt(msg, key));
         System.out.println("\n" + encryptedHex);
 
