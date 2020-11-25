@@ -1,5 +1,6 @@
 // java Https message key
 // java Https 8A1DE7DD177FAE564A696092F36D672CA705ABFB171B940E9118D357FE4C31E2CB657F889745AA4A038B08477EFBA6A005C9FB45E2967E8DAC7FE34FFDC6B16388FF6F4033E99607F335814937433086C188CCC43652408636988743EC6EE7BD12B8E1A3C7EF1861EDE28D9F9EAC668E FAE9223FEB4CA59080BFB1378FEA56F0
+// java Https C90FEC1B98343532335AC48153F164FC5EEBFEDDE1BFF9132B0C18678B454373029C27973042F7BB71B97FB5B5B9EE8B218386A40C5267B567C753E9468D698CF8281CB0ECCFF9548DED280D426EB78DCC33CCAB8AE88C5989EC6C3ACD538375 FAE9223FEB4CA59080BFB1378FEA56F0
 import java.util.Scanner;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
@@ -47,6 +48,19 @@ public class Https {
         }
         return sb.toString().toUpperCase();
     }
+
+    public static String stringToHexString(String str){
+ 
+	  char[] chars = str.toCharArray();
+ 
+	  StringBuffer hex = new StringBuffer();
+	  for(int i = 0; i < chars.length; i++){
+	    hex.append(Integer.toHexString((int)chars[i]));
+	  }
+ 
+	  return hex.toString();
+    }
+
     public static byte[] decrypt(byte[] msg, byte[] key, byte[] iv){
         byte[] deciphered = new byte[5];
         try {
@@ -61,6 +75,23 @@ public class Https {
         }
         return deciphered;
     }
+
+    public static byte[] encrypt(byte[] msg, byte[] key) {
+        byte[] ciphered = new byte[5];
+        try {
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            SecretKeySpec secretKey = new SecretKeySpec(key, "AES");
+            byte[] iv = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
+        
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
+            ciphered = cipher.doFinal(msg);
+
+        } catch(Exception error) {
+            System.out.println(error);
+        }
+        return ciphered;
+    }
+
     public static void A(){
         int a = 1434365;
         BigInteger A = g.pow(a);
@@ -86,9 +117,12 @@ public class Https {
         System.out.println("\n" + decryptedString); 
 
         StringBuilder sb = new StringBuilder(decryptedString);  
-        decryptedString  = sb.reverse().toString();  
-        System.out.println("\n" + decryptedString ); 
-        
+        msg = hexStringToByteArray(stringToHexString(sb.reverse().toString())); // reverserd string in bytes
+
+        String encryptedHex = byteArrayToHexString(encrypt(msg, key));
+        System.out.println("\n" + encryptedHex);
 
     }
 }
+//8A1DE7DD177FAE564A696092F36D672CA705ABFB171B940E9118D357FE4C31E2CB657F889745AA4A038B08477EFBA6A005C9FB45E2967E8DAC7FE34FFDC6B16388FF6F4033E99607F335814937433086C188CCC43652408636988743EC6EE7BD12B8E1A3C7EF1861EDE28D9F9EAC668E FAE9223FEB4CA59080BFB1378FEA56F0
+//0E748C17A0D01891B104D606A9D6DD663207D99600D2C0F12A2226779547E23794C0A3EEADC8D3CBBB3FB2F5F55FD7B743EB0C6B522219012B1D360D3AB1DFE7FB823FEB9FFC27B6E3577208C5A72A015EBB01B15AEA48B61B4F7A49A06B4BEC
